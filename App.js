@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,6 +28,10 @@ const salvarDadosLocal = async (listaDeDados) => {
 }catch (error) {
   console.error("erro ao resgatar dados: ", error);
 }}
+useEffect(() => {
+    // O código aqui dentro rodará assim que o celular acender!
+    resgatarDadosLocal();
+}, []);
   return( 
       <View style={styles.container1}>
         
