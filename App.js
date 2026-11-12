@@ -11,18 +11,23 @@ export default function App() {
     setListaTarefas([...listaTarefas, tarefaAtual]); 
   };
 
-const salvarDadosLocal = async () => {
-  const listaString = JSON.stringify(listaTarefas);
-  await AsyncStorage.setItem('minhas_tarefas', listaString);
-  
- }
+const salvarDadosLocal = async (listaDeDados) => {
+  try {
+  const dadosJSON = JSON.stringify(listaDeDados);
+  await AsyncStorage.setItem('minhas_tarefas', dadosJSON);
+  } catch (error) {
+    console.error("erro ao salvar dados: ", error);
+  }
+};
  const resgatarDadosLocal = async () => {
+  try{
   const listaString = await AsyncStorage.getItem('minhas_tarefas');
-  if (listaString) {
+  if (listaString !== null) {
     setListaTarefas(JSON.parse(listaString));
  }
-}
-
+}catch (error) {
+  console.error("erro ao resgatar dados: ", error);
+}}
   return( 
       <View style={styles.container1}>
         
@@ -43,7 +48,7 @@ const salvarDadosLocal = async () => {
           placeholder="Digite a anotação..." 
         />
 
-    <TouchableOpacity style={styles.botao} onPress={() => {adicionarTarefa(), salvarDadosLocal();}}>
+    <TouchableOpacity style={styles.botao} onPress={() => {adicionarTarefa(), salvarDadosLocal(listaTarefas);}}>
    
 <Text style={styles.mais}>+</Text>
 </TouchableOpacity>
